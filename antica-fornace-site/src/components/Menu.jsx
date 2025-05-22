@@ -1,7 +1,11 @@
 import { useState } from 'react';
 
-const Menu = ({ menuItems }) => {
+const Menu = ({ menu }) => { // Changed from menuItems to menu
   const [activeCategory, setActiveCategory] = useState('pizzas');
+
+  // The menu prop should be an object like: { pizzas: [], appetizers: [], desserts: [] }
+  // We will access the correct array based on activeCategory
+  const itemsToDisplay = menu && menu[activeCategory] ? menu[activeCategory] : [];
 
   const categories = [
     { id: 'pizzas', label: 'Pizze' },
@@ -37,7 +41,7 @@ const Menu = ({ menuItems }) => {
           </div>
         </div>        {/* Menu Items as Dragon Ball Cards */}
         <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
-          {menuItems[activeCategory]?.map((item, index) => (
+          {itemsToDisplay.map((item, index) => ( // Changed from menuItems[activeCategory]?.map to itemsToDisplay.map
             <div 
               key={`${activeCategory}-${index}`} 
               className="dragonball-card p-0 relative transform transition-all hover:shadow-lg animate-power-up"
