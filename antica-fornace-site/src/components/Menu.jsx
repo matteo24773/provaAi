@@ -1,10 +1,9 @@
 import { useState } from 'react';
 
-const Menu = ({ menu }) => { // Changed from menuItems to menu
+const Menu = ({ menu }) => { // Changed prop name from menuItems to menu
   const [activeCategory, setActiveCategory] = useState('pizzas');
 
-  // The menu prop should be an object like: { pizzas: [], appetizers: [], desserts: [] }
-  // We will access the correct array based on activeCategory
+  // Access the correct array based on activeCategory from the menu object
   const itemsToDisplay = menu && menu[activeCategory] ? menu[activeCategory] : [];
 
   const categories = [

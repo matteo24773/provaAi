@@ -67,7 +67,7 @@ const Contact = () => {
                 </div>
               </div>
             </div>
-            <div className="mb-8">
+              <div className="mb-8">
               <h3 className="text-xl font-bold mb-4">Dove Siamo</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="bg-white/10 p-4 rounded-lg hover:bg-white/20 transition-all duration-300">
