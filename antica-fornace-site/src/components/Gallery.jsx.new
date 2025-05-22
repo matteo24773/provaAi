@@ -1,0 +1,181 @@
+import { useState } from 'react';
+import pizzaImg from '../assets/image.png';
+import pizzaImg2 from '../assets/OIP.png';
+
+const Gallery = () => {
+  // Array of gallery images (in a real app, these would be imported or coming from an API)
+  const galleryImages = [
+    {
+      url: 'https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?q=80&w=1935&auto=format&fit=crop',
+      title: 'Pizza Margherita',
+    },
+    {
+      url: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1981&auto=format&fit=crop',
+      title: 'Pizza Napoli',
+    },    
+    {
+      url: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=1938&auto=format&fit=crop',
+      title: 'Pizza Bianca',
+    },    
+    {
+      url: pizzaImg2,
+      title: 'Pizza Ai Funghi',
+    },
+    {
+      url: pizzaImg,
+      title: 'Il Nostro Locale',
+    },
+    {
+      url: pizzaImg2,
+      title: 'Impasto Fatto a Mano',
+    },
+  ];
+
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  const openLightbox = (index) => {
+    setActiveImageIndex(index);
+    setLightboxOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeLightbox = () => {
+    setLightboxOpen(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  const prevImage = () => {
+    setActiveImageIndex((prevIndex) => 
+      prevIndex === 0 ? galleryImages.length - 1 : prevIndex - 1
+    );
+  };
+
+  const nextImage = () => {
+    setActiveImageIndex((prevIndex) => 
+      prevIndex === galleryImages.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  return (
+    <section id="gallery" className="section bg-bgLight relative">
+      <div className="container-custom">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-yugioh text-primary mb-4 relative inline-block">
+            Galleria delle Leggende
+            <div className="absolute -top-3 -right-6 w-8 h-8 eye-of-anubis animate-millennium-glow"></div>
+          </h2>
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+            Esplora le nostre <span className="text-primary font-yugioh">creazioni millenarie</span> e lasciati ispirare dai sapori della 
+            <span className="text-yugiGold font-yugioh"> magia ancestrale</span> italiana.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {galleryImages.map((image, index) => (
+            <div 
+              key={index} 
+              className="yugioh-card cursor-pointer group overflow-hidden"
+              onClick={() => openLightbox(index)}
+            >
+              <div className="h-8 bg-primary flex items-center justify-center">
+                <h3 className="text-white text-sm font-yugioh">{image.title}</h3>
+              </div>
+              <div className="relative overflow-hidden">
+                <img 
+                  src={image.url} 
+                  alt={image.title} 
+                  className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-bgDark to-transparent opacity-0 group-hover:opacity-60 transition-opacity"></div>
+                
+                {/* Millennium Pyramid effect on hover */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="eye-of-anubis w-12 h-12 animate-millennium-glow"></div>
+                </div>
+              </div>
+              <div className="h-6 bg-yugiGold text-xs text-center text-black font-yugioh py-1">
+                CARD-{(index + 1).toString().padStart(2, '0')}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Instagram CTA */}
+        <div className="text-center mt-12">
+          <p className="text-lg mb-4 font-yugioh">Segui i nostri duelli su Instagram</p>
+          <a 
+            href="https://www.instagram.com/antica_fornace_pizza" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-6 py-2 bg-gradient-to-r from-primary to-yugiPurple text-white hover:from-primary/90 hover:to-yugiPurple/90 border-2 border-black rounded yugioh-card transition-all"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 mr-2">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+            </svg>
+            <span className="font-yugioh tracking-wider">@antica_fornace_pizza</span>
+          </a>
+        </div>
+      </div>
+      
+      {/* Lightbox for Enlarged Images */}
+      {lightboxOpen && (
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-90 flex items-center justify-center">
+          <div className="relative max-w-5xl mx-auto p-4">
+            <div className="yugioh-card overflow-hidden">
+              <div className="h-10 bg-primary flex items-center justify-center">
+                <h3 className="text-white text-lg font-yugioh">{galleryImages[activeImageIndex].title}</h3>
+              </div>
+              <img 
+                src={galleryImages[activeImageIndex].url} 
+                alt={galleryImages[activeImageIndex].title} 
+                className="w-full max-h-[70vh] object-contain"
+              />
+              <div className="h-8 bg-yugiGold flex items-center justify-center">
+                <span className="text-xs font-yugioh text-black">LEGENDARY PIZZA • {(activeImageIndex + 1).toString().padStart(2, '0')}</span>
+              </div>
+            </div>
+            
+            {/* Navigation Buttons */}
+            <button 
+              onClick={prevImage}
+              className="absolute left-4 top-1/2 -translate-y-1/2 bg-yugiGold text-black p-2 rounded-full yugioh-card"
+              aria-label="Previous image"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            
+            <button 
+              onClick={nextImage}
+              className="absolute right-4 top-1/2 -translate-y-1/2 bg-yugiGold text-black p-2 rounded-full yugioh-card"
+              aria-label="Next image"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+            
+            {/* Close Button */}
+            <button 
+              onClick={closeLightbox}
+              className="absolute top-4 right-4 bg-yugiRed text-white p-2 rounded-full yugioh-card"
+              aria-label="Close lightbox"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
+      
+      {/* Decorative Millennium Items in the background */}
+      <div className="absolute top-10 left-10 opacity-10 w-16 h-16 eye-of-anubis"></div>
+      <div className="absolute bottom-10 right-10 opacity-10 w-16 h-16 eye-of-anubis"></div>
+    </section>
+  );
+};
+
+export default Gallery;
